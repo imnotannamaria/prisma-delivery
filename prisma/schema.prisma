@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Deliveryman {
+  id         String       @id @default(uuid())
+  username   String       @unique
+  password   String
+  Deliveries Deliveries[]
+}
+
+model Clients {
+  id         String       @id @default(uuid())
+  username   String       @unique
+  password   String
+  Deliveries Deliveries[]
+}
+
+model Deliveries {
+  id            String      @id @default(uuid())
+  clientId      String
+  client        Clients     @relation(fields: [clientId], references: [id])
+  deliverymanId String
+  deliveryman   Deliveryman @relation(fields: [deliverymanId], references: [id])
+  itemName      String
+  createdAt     DateTime    @default(now())
+  endedAt       DateTime    @default(now())
+}
