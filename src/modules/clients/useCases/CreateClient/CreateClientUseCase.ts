@@ -10,7 +10,9 @@ export class CreateClientUseCase {
   async execute({ username, password }: ICreateClientDTO) {
     const clientExists = await prisma.clients.findFirst({
       where: {
-        username
+        username: {
+          equals: username,
+        }
       }
     })
 
